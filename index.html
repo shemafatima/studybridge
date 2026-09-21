@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar" id="topbar" style="display: none;">
+
+        <div class="brand"> Study<span> Bridge</span></div>
+        <nav id="navLinks" class="nav-links"> </nav>
+        <div class="topbar-right">
+            <span id="userTag" class="user-tag"></span>
+            <button id="logoutBtn" class="btn btn-ghost">Log out </button>
+        </div>
+    </header>
+
+    <section id="authView" class="auth-wrap">
+  <div class="auth-card">
+    <div class="brand center"><span class="mark">◆</span> Study<span>Bridge</span></div>
+    <p class="tagline">One place for classes, attendance, notes and catch-up.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="login">Log in</button>
+      <button class="tab-btn" data-tab="signup">Sign up</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <label>Email
+        <input type="email" id="loginEmail" required placeholder="you@school.edu">
+      </label>
+      <label>Password
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+      </label>
+      <p class="form-error" id="loginError"></p>
+      <button type="submit" class="btn btn-primary full">Log in</button>
+    </form>
+
+    <form id="signupForm" class="auth-form hidden">
+      <label>Full name
+        <input type="text" id="suName" required placeholder="Jordan Lee">
+      </label>
+      <label>Email
+        <input type="email" id="suEmail" required placeholder="you@school.edu">
+      </label>
+      <label>Password
+        <input type="password" id="suPassword" required placeholder="At least 4 characters">
+      </label>
+      <label>I am a...
+        <select id="suRole">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+      </label>
+      <p class="form-error" id="signupError"></p>
+      <button type="submit" class="btn btn-primary full">Create account</button>
+    </form>
+
+    <p class="hint">Demo tip: sign up once as a Teacher and once as a Student (use two different emails) to try the full flow.</p>
+  </div>
+</section>
+
+<main id="studentApp" class="app-wrap hidden">
+
+  <section id="s-dashboard" class="view">
+    <h1>Dashboard</h1>
+    <div class="grid-cards" id="s-dash-cards"></div>
+    <div class="two-col">
+      <div class="panel">
+        <h2>Important announcements</h2>
+        <div id="s-dash-announcements" class="list"></div>
+      </div>
+      <div class="panel">
+        <h2>Recent notes</h2>
+        <div id="s-dash-notes" class="list"></div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <h2>Missed classes</h2>
+        <div id="s-dash-missed" class="list"></div>
+      </div>
+      <div class="panel">
+        <h2>Upcoming quizzes</h2>
+        <div id="s-dash-quizzes" class="list"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="s-attendance" class="view hidden">
+    <h1>Attendance</h1>
+    <div class="panel">
+      <h2>Overall attendance</h2>
+      <div id="s-att-overall" class="stat-block"></div>
+    </div>
+    <div class="panel">
+      <h2>By subject</h2>
+      <div id="s-att-bysubject" class="list"></div>
+    </div>
+  </section>
+
+  <section id="s-notes" class="view hidden">
+    <h1>Notes</h1>
+    <div id="s-notes-list" class="list"></div>
+  </section>
+
+  <section id="s-missed" class="view hidden">
+    <h1>Missed Notes</h1>
+    <p class="muted">Classes you were marked absent for, and the catch-up material your teacher shared.</p>
+    <div id="s-missed-list" class="list"></div>
+  </section>
+
+
+  <section id="s-quizzes" class="view hidden">
+    <h1>Quizzes</h1>
+    <div id="s-quizzes-list" class="list"></div>
+  </section>
+
+  <section id="s-quizTake" class="view hidden">
+    <button class="btn btn-ghost back-btn" data-back="s-quizzes">&larr; Back to Quizzes</button>
+    <h1 id="s-qt-title">Quiz</h1>
+    <form id="s-quizForm"></form>
+  </section>
+
+  <section id="s-notifications" class="view hidden">
+    <h1>Notifications</h1>
+    <div id="s-notif-list" class="list"></div>
+  </section>
+
+</main>
+
+<main id="teacherApp" class="app-wrap hidden">
+
+  <section id="t-dashboard" class="view">
+    <h1>Dashboard</h1>
+    <div class="grid-cards" id="t-dash-cards"></div>
+    <div class="panel">
+      <h2>Recent activity</h2>
+      <div id="t-dash-activity" class="list"></div>
+    </div>
+  </section>
+
+  <section id="t-groups" class="view hidden">
+    <h1>My Groups</h1>
+    <div class="panel">
+      <h2>Create a new group</h2>
+      <form id="createGroupForm" class="inline-form">
+        <input type="text" id="newGroupName" placeholder="Subject / group name (e.g. Physics 101)" required>
+        <button class="btn btn-primary" type="submit">Create</button>
+      </form>
+    </div>
+    <div id="t-groups-list" class="grid-cards"></div>
+  </section>
+
+
+
+  <section id="t-groupDetail" class="view hidden">
+    <button class="btn btn-ghost back-btn" data-back="t-groups">&larr; Back to My Groups</button>
+    <h1 id="t-gd-title">Group</h1>
+    <p class="muted">Group code: <strong id="t-gd-code"></strong> — share this with your students so they can join.</p>
+
+    <div class="panel">
+      <h2>Students in this group</h2>
+      <div id="t-gd-students" class="list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Post an announcement</h2>
+      <form id="t-announceForm" class="stack-form">
+        <textarea id="t-announceText" placeholder="Write an announcement..." required></textarea>
+        <label class="checkbox-line"><input type="checkbox" id="t-announceImportant"> Mark as important</label>
+        <button class="btn btn-primary" type="submit">Post announcement</button>
+      </form>
+      <div id="t-gd-announcements" class="list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Share notes</h2>
+      <form id="t-noteForm" class="stack-form">
+        <input type="text" id="t-noteTitle" placeholder="Note title" required>
+        <textarea id="t-noteContent" placeholder="Paste note content / summary / link..." required></textarea>
+        <button class="btn btn-primary" type="submit">Share note</button>
+      </form>
+      <div id="t-gd-notes" class="list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Send a message to this group</h2>
+      <form id="t-msgForm" class="inline-form">
+        <input type="text" id="t-msgText" placeholder="Type a message..." required>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      <div id="t-gd-messages" class="list"></div>
+    </div>
+  </section>
+
+
+  <section id="t-attendance" class="view hidden">
+    <h1>Attendance</h1>
+    <div class="panel">
+      <label>Select group
+        <select id="t-att-group"></select>
+      </label>
+      <label>Date
+        <input type="date" id="t-att-date">
+      </label>
+    </div>
+    <div id="t-att-list" class="list"></div>
+    <button id="t-att-save" class="btn btn-primary">Save attendance</button>
+    <p class="form-success" id="t-att-success"></p>
+  </section>
+
+  <section id="t-notes" class="view hidden">
+    <h1>Notes</h1>
+    <p class="muted">Notes shared across all your groups. Open a group under My Groups to share a new one.</p>
+    <div id="t-notes-list" class="list"></div>
+  </section>
+
+  <section id="t-announcements" class="view hidden">
+    <h1>Announcements</h1>
+    <p class="muted">Announcements posted across all your groups. Open a group under My Groups to post a new one.</p>
+    <div id="t-announcements-list" class="list"></div>
+  </section>
+
+  <section id="t-missed" class="view hidden">
+    <h1>Missed Class Content</h1>
+    <div class="panel">
+      <h2>Add catch-up content</h2>
+      <form id="t-missedForm" class="stack-form">
+        <label>Group
+          <select id="t-missed-group" required></select>
+        </label>
+        <label>Class date
+          <input type="date" id="t-missed-date" required>
+        </label>
+        <input type="text" id="t-missed-title" placeholder="What was covered" required>
+        <textarea id="t-missed-content" placeholder="Notes / material / catch-up task for absent students..." required></textarea>
+        <label>Attach a catch-up quiz (optional)
+          <select id="t-missed-quiz"><option value="">None</option></select>
+        </label>
+        <button class="btn btn-primary" type="submit">Add catch-up content</button>
+      </form>
+    </div>
+    <div id="t-missed-list" class="list"></div>
+  </section>
+
+
+
+  <section id="t-quizzes" class="view hidden">
+    <h1>Quizzes</h1>
+    <div class="panel">
+      <h2>Create a quiz</h2>
+      <form id="t-quizMetaForm" class="stack-form">
+        <label>Group
+          <select id="t-quiz-group" required></select>
+        </label>
+        <input type="text" id="t-quiz-title" placeholder="Quiz title" required>
+        <div id="t-quiz-questions"></div>
+        <button type="button" id="t-quiz-addQ" class="btn btn-ghost">+ Add question</button>
+        <button type="submit" class="btn btn-primary">Save quiz</button>
+      </form>
+    </div>
+    <div id="t-quizzes-list" class="list"></div>
+  </section>
+
+  <section id="t-quizResults" class="view hidden">
+    <button class="btn btn-ghost back-btn" data-back="t-quizzes">&larr; Back to Quizzes</button>
+    <h1 id="t-qr-title">Results</h1>
+    <div id="t-qr-list" class="list"></div>
+  </section>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
+    
